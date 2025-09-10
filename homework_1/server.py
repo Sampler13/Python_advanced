@@ -30,6 +30,5 @@ while True:
         else:
             conn.send(f"Получена строка - '{data}'.".encode())
 
-    conn.close()
     break
 print("---------------connection closed--------------")
