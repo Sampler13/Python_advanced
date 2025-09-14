@@ -1,7 +1,7 @@
 import socket
 import time
 
-HOST = ("127.0.0.1", 7779)  # IP адрес и порт сервера
+HOST = ("127.0.0.1", 7778)  # IP адрес и порт сервера
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(HOST)
