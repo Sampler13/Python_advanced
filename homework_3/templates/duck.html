@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duck</title>
+    <style>
+        body {
+            background-color: #d1d99f;
+        }
+         h1 {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-align: center;
+
+        }
+        .container {
+            max-width: 1920px;
+            padding  0 40 px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex-direction: column;
+        a {
+            margin-top: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: blue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<h1>Рандомная утка №{{num}}</h1>
+<div class="container">
+    <img src="{{link}}" alt="Извините, утки нет">
+    <a href="/">Назад</a>
+</div>
+
+
+</body>
+</html>
