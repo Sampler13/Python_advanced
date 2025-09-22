@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duck</title>
+    <style>
+        body {
+            display: flex;
+            background-color: #d1d99f;
+            flex-direction: column;
+            align-content: flex-start;
+            align-items: center;
+        }
+         h1 {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-align: center;
+
+        }
+        .container {
+            max-width: 1920px;
+            padding  0 40 px 0 40px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-content: center;
+            flex-wrap: wrap;
+
+        a {
+            margin-top: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: blue;
+            text-decoration: none;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+{% if user_login %}
+            <p>Приветствуем вас, {{ user_name }} {{ user_surname }}!</p>
+{% endif %}
+<h1>Рандомная утка №{{num}}</h1>
+<div class="container">
+    <img src="{{link}}" alt="Извините, утки нет">
+    <a href="/">Назад</a>
+</div>
+
+
+</body>
+</html>

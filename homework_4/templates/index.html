@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #d1d99f;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            flex-direction: column;
+            align-items: center;
+            }
+        .card {
+            display: flex;
+            position: relative;
+            background-color: #b3ddd9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 250px;
+            height: 100px;
+            margin: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+
+        }
+        .cards-container{
+            display: flex;
+        }
+        .card:hover {
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            transform: scale(1.05);
+        }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 123, 255, 0.1);
+            z-index: 0;
+        }
+
+        .card a {
+            position: relative;
+            z-index: 1;
+            display: block;
+            padding: 40px;
+            height: 100%;
+            text-decoration: none;
+            color: black;
+            text-align: center;
+        }
+        .card a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Главная страница</h1>
+{% if user_login %}
+<p>Приветствуем вас, {{ user_name }} {{ user_surname }}! <a href="{{ url_for('routes.logout') }}">Выход</a></p>
+{% else %}
+<p><a href="{{ url_for('routes.login') }}">Вход</a> | <a href="{{ url_for('routes.register') }}">Регистрация</a></p>
+{% endif %}
+    </div>
+    <div class="cards-container">
+         <div class="card">
+        <a href="/duck/">Смотреть уточку</a>
+
+    </div>
+    <div class="card">
+        <a href="/fox/4/">Смотреть лисичек</a>
+
+    </div>
+    <div class="card">
+        <a href="/weather/magadan/">Смотреть погоду</a>
+
+    </div>
+    <div class="card">
+        <a href="/weather-minsk/">Смотреть погоду в Минске</a>
+
+    </div>
+    </div>
+
+</body>
+</html>
