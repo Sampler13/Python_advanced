@@ -13,7 +13,7 @@ email_re = re.compile(r'^[\w\.-]+@[\w\.-]+\.\w{2,}$')
 
 
 def load_users():
-    print(USERS_FILE)
+
     if not os.path.exists(USERS_FILE):
         print("Файл users.json не найден.")
         return {"logins": {}, "emails": {}}
