@@ -208,3 +208,4 @@ __marimo__/
 .idea
 .git
 .gitignore
+users.json
