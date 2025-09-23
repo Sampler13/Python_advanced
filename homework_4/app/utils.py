@@ -4,7 +4,7 @@ from flask import session, redirect, url_for
 
 
 def get_request(url):
-    res = requests.get(url)
+    res = requests.get(url, verify=False)
 
     try:
         result = res.json()
