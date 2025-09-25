@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Погода в {{ weather.city }}</title>
+    <style>
+         body {
+            display: flex;
+            background-color: #d1d99f;
+            flex-direction: column;
+            align-content: flex-start;
+            align-items: center;
+
+        }
+         h1 {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-align: center;
+
+        }
+        .container {
+            max-width: 1920px;
+            padding  0 40 px 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        p {
+            text-align: center;
+            font-size: 24px
+        }
+        a {
+            margin-top: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: blue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+{% if user_login %}
+            <p>Приветствуем вас, {{ user_name }} {{ user_surname }}!</p>
+    {% endif %}
+{% if weather %}
+    <h1>Погода в {{ weather.city }}, {{ weather.country }}</h1>
+    <div class="container">
+        <p>Температура: {{ weather.temp }}°C</p>
+        <p>Описание: {{ weather.description }}</p>
+        <img src="{{ weather.icon }}" alt="Погода">
+        <a href="/">Назад</a>
+    </div>
+{% endif %}
+{% if err==True %}
+    <p>Извините, данный город не найден...=(</p>
+{% endif %}
+
+</body>
+</html>
