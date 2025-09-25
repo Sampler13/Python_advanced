@@ -307,6 +307,10 @@ h2 {
 .task11_inner {
     align-items: flex-start;
 }
+.task11_inner button {
+    padding: 5px 15px;
+
+}
 
 .task11 label {
     margin-bottom: 20px;
