@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Вход</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: #d1d99f;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding-top: 50px;
+    }
+    .form-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      padding: 20px;
+      margin: 10px;
+      text-align: center
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error { color: #c00; font-size: 0.9em; margin-top: 4px; }
+    p {
+      text-align: center;
+    }
+    a {
+            margin-top: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: blue;
+            text-decoration: none;
+        }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Вход</h1>
+    <form method="post" action="{{ url_for('routes.login') }}" novalidate>
+      <label>
+        Логин:
+        <input type="text" name="login" required value="{{ form.get('login','') }}">
+        {% if errors.get('login') %}
+          {% for e in errors['login'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <label>
+        Пароль:
+        <input type="password" name="password" required>
+        {% if errors.get('password') %}
+          {% for e in errors['password'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <button type="submit">Войти</button>
+    </form>
+    <p>Нет аккаунта? <a href="{{ url_for('routes.register') }}">Регистрация</a></p>
+    <a href="/" class="back-button">Назад</a>
+  </div>
+</body>
+</html>

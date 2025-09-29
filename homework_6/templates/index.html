@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <h1>
+            {% block title %}Главная страница{% endblock %}
+        </h1>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-list-item"><a href="/duck/">Смотреть уточку</a></li>
+                <li class="nav-list-item"><a href="/fox/4/">Смотреть лисичек</a></li>
+                <li class="nav-list-item"><a href="/weather/magadan/">Смотреть погоду</a></li>
+                <li class="nav-list-item"><a href="/weather-minsk/">Смотреть погоду в Минске</a></li>
+                <li class="nav-list-item"><a href="/samples/">Смотреть примеры тегов</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <section class="content grid-item">
+        <span>Content</span>
+        {%block content%}
+        {%endblock%}
+    </section>
+    <aside class="aside-content grid-item">
+        <span>Aside</span>
+        {% if user_login %}
+        <p>Приветствуем вас, {{ user_name }} {{ user_surname }}! </p>
+        <a href="{{ url_for('routes.logout') }}">Выход</a>
+        {% else %}
+        <p><a href="{{ url_for('routes.login') }}">Вход</a> | <a href="{{ url_for('routes.register') }}">Регистрация</a></p>
+        {% endif %}
+    </aside>
+   
+    <footer class="footer grid-item"><span>Footer</span></footer>
+</div>
+
+</body>
+</html>

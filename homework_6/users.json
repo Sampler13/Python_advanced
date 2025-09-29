@@ -1,0 +1,22 @@
+{
+  "logins": {
+    "testtest": {
+      "name": "илья",
+      "surname": "шаров",
+      "age": 34,
+      "email": "bunny.work13@gmail.com",
+      "password_hash": "scrypt:32768:8:1$9OGhrwFDJbhWkfeh$9ea5f329b8d6c6f66d3826940cf64ba336a523c1a3e1aa6ad5013792ce971859a02724b37db1e87656c94de2f091ca15ee45135eebf9eaff130d228b16b6f05e"
+    },
+    "testtest2": {
+      "name": "Коля",
+      "surname": "фывыфвв",
+      "age": 23,
+      "email": "wmbeeman@gmail.com",
+      "password_hash": "scrypt:32768:8:1$NcCnP9Yb4AgUQexe$736734d702b37fbba2d93a6daf5881a0924dc61a979cf5c6d3298831bd7c668c75260fbdb8a913470de3c44fe86266f43399c3c9480e8b6f6f9579ba0b44f721"
+    }
+  },
+  "emails": {
+    "bunny.work13@gmail.com": "testtest",
+    "wmbeeman@gmail.com": "testtest2"
+  }
+}

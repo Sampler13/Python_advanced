@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: #d1d99f;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding-top: 50px;
+    }
+    .form-container {
+      display: flex;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      padding: 20px;
+      margin: 10px;
+      flex-direction: column;
+
+    }
+
+    form {
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      margin-bottom: 10px;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error { color: #c00; font-size: 0.9em; margin-top: 4px; }
+    p {
+      text-align: center;
+    }
+    a {
+      margin-top: 40px;
+      margin-bottom: 50px;
+      text-align: center;
+      color: blue;
+      text-decoration: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Регистрация</h1>
+    <form method="post" action="{{ url_for('routes.register') }}" novalidate>
+      <label>
+        Имя (рус):
+        <input type="text" name="name" required value="{{ form.get('name','') }}">
+        {% if errors.get('name') %}
+          {% for e in errors['name'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <label>
+        Фамилия (рус):
+        <input type="text" name="surname" required value="{{ form.get('surname','') }}">
+        {% if errors.get('surname') %}
+          {% for e in errors['surname'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <label>
+        Возраст (12–100):
+        <input type="number" name="age" min="12" max="100" required value="{{ form.get('age','') }}">
+        {% if errors.get('age') %}
+          {% for e in errors['age'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <label>
+        Email:
+        <input type="email" name="email" required value="{{ form.get('email','') }}">
+        {% if errors.get('email') %}
+          {% for e in errors['email'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <label>
+        Логин (лат., цифры, _; 6–20):
+        <input type="text" name="login" required value="{{ form.get('login','') }}">
+        {% if errors.get('login') %}
+          {% for e in errors['login'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <label>
+        Пароль (8–15, a-z, A-Z, цифра):
+        <input type="password" name="password" required>
+        {% if errors.get('password') %}
+          {% for e in errors['password'] %}
+            <div class="error">{{ e }}</div>
+          {% endfor %}
+        {% endif %}
+      </label>
+
+      <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть аккаунт? <a href="{{ url_for('routes.login') }}">Войти</a></p>
+    <a href="/" class="back-button">Назад</a>
+  </div>
+</body>
+</html>
