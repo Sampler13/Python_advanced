@@ -1,0 +1,18 @@
+<div class="modal fade" id="quizStartModal{{ quiz.id }}" tabindex="-1" aria-labelledby="quizStartModalLabel{{ quiz.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="quizStartModalLabel{{ quiz.id }}">{{ quiz.name }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p class="fs-5">Количество вопросов: <strong>{{ quiz.questions | length }}</strong></p>
+                <p>Готовы начать квиз?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-success">Начать</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

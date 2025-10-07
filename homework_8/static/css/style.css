@@ -1,0 +1,30 @@
+ html, body {
+    height: 100%; 
+}
+
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: 3fr .5fr;  
+    grid-template-rows: repeat(2, 1fr);    
+    grid-template-areas:
+        "main aside"
+        "below below";
+    gap: 1rem;
+    height: 100%;        
+    min-height: 0;       
+}
+main   { grid-area: main; }
+aside  { grid-area: aside; }
+.below { grid-area: below; }
+
+@media (max-width: 992px) {
+    .layout-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows:  auto 1fr 1fr; 
+        grid-template-areas:
+        "aside"
+        "main"
+        "below";
+}
+}

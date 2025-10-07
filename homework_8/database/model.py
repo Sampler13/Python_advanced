@@ -12,10 +12,10 @@ quiz_questions = db.Table(
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
+    name = db.Column(db.String(50), nullable=False)
 
     quizzes = db.relationship('Quiz',
-                             backref='user',
+                             backref='owner',
                              cascade='all, delete-orphan',
                              lazy='select')
 
@@ -33,7 +33,6 @@ class Quiz(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    user = db.relationship('User', backref='quizzes')
 
     questions = db.relationship(
         'Question',
@@ -60,11 +59,6 @@ class Question(db.Model):
     wrong1 = db.Column(db.String(100), nullable=False)
     wrong2 = db.Column(db.String(100), nullable=False)
     wrong3 = db.Column(db.String(100), nullable=False)
-
-    quizzes = db.relationship('Quiz',
-                             secondary=quiz_questions,
-                             backref='questions',
-                             lazy='select')
 
 
     def __init__(self, text, answer, wrong1, wrong2, wrong3):

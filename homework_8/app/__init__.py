@@ -7,6 +7,8 @@ def create_app():
     app.config.from_object('config.Config')
     app.secret_key = 'asdsadasd asdsadsad asdasdasd'
     db.init_app(app)
+
+
     from . import routes
-    # app.register_blueprint(routes.bp)
+    app.register_blueprint(routes.bp)
     return app

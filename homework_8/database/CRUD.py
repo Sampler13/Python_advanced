@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
 
-from model import db
+from .model import db
 
 def reset_db():
     db.drop_all()

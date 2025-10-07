@@ -1,0 +1,25 @@
+<div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quizModalLabel">{{ quiz.title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="questionText">{{ question.text }}</p>
+                <ul class="list-group">
+                    {% for option in question.options %}
+                        <li class="list-group-item">
+                            <a href="{{ url_for('submit_answer', quiz_id=quiz.id, question_id=question.id, selected_answer=option.id) }}" class="text-decoration-none">
+                                {{ option.text }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
