@@ -245,3 +245,8 @@ def question_delete(question_id):
     db.session.delete(q)
     db.session.commit()
     return redirect(url_for("routes.quizzes_manage"))
+
+
+@bp.errorhandler(404)
+def page_not_found(error):
+    return '<h1 style="color:red">такой страницы не существует</h1>'
