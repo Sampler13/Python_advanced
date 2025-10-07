@@ -1,7 +1,7 @@
-# routes.py — упрощённые маршруты без "админ" и без таблиц
+
 
 from flask import Blueprint, render_template, redirect, url_for, request, session
-from database.CRUD import *  # оставляю твои CRUD-хелперы; используем list_instances
+from database.CRUD import *
 from database.model import db, User, Quiz, Question
 from .utils import get_quiz, build_options, state_key
 
@@ -103,7 +103,6 @@ def quiz_go(quiz_id):
 
 @bp.route("/quizzes/manage", methods=["GET"])
 def quizzes_manage():
-
     quizzes = list_instances(Quiz)
     questions = list_instances(Question)
 
