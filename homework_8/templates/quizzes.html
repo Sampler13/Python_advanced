@@ -1,18 +1,26 @@
 {% extends "base.html" %}
+{% block title %}Список квизов{% endblock %}
+{% block header %}Список Квизов{% endblock %}
 
 {% block content %}
-    <h2>Список Квизов</h2>
-
-    <ul class="list-group">
-        {% for quiz in quizzes %}
-            <li class="list-group-item list-group-item-action" aria-current="true">
-                <a href="{{ url_for('routes.open_quiz', quiz_id=quiz.id) }}" class="text-decoration-none text-dark d-flex justify-content-between align-items-center">
-                    {{ quiz.name }}
-                    <span class="badge bg-primary rounded-pill">Открыть</span>
-                </a>
-            </li>
-
-        {% endfor %}
-    </ul>
-
+  <ul class="list-group">
+    {% for quiz in quizzes %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="fw-medium">{{ quiz.name }}</span>
+        <div class="d-flex gap-2">
+          <button
+            class="btn btn-primary btn-sm"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#quizStartModal{{ quiz.id }}"
+          >
+            Предпросмотр / Начать
+          </button>
+        </div>
+      </li>
+      {% include 'quiz_start_modal.html' %}
+    {% else %}
+      <li class="list-group-item text-secondary">Пока нет квизов</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

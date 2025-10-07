@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Редактор{% endblock %}
+{% block header %}Редактор квизов и вопросов{% endblock %}
+
+{% block content %}
+  <h2 class="h5">Квизы</h2>
+
+  <form class="row g-2 mb-3" method="post" action="{{ url_for('routes.quiz_create') }}">
+    <div class="col-sm-6">
+      <input name="name" class="form-control" placeholder="Название нового квиза" required>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-success">Создать</button>
+    </div>
+  </form>
+
+  <ul class="list-group">
+    {% for qz in quizzes %}
+      <li class="list-group-item">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <a class="fw-semibold me-2" href="{{ url_for('routes.quizzes_manage', quiz_id=qz.id) }}">{{ qz.name }}</a>
+            <span class="text-secondary">#{{ qz.id }}</span>
+          </div>
+          <div class="d-flex gap-2">
+            <form class="d-flex gap-2" method="post" action="{{ url_for('routes.quiz_rename', quiz_id=qz.id) }}">
+              <input name="name" class="form-control form-control-sm" placeholder="Новое имя">
+              <button class="btn btn-outline-primary btn-sm">Переименовать</button>
+            </form>
+            <form method="post" action="{{ url_for('routes.quiz_delete', quiz_id=qz.id) }}" onsubmit="return confirm('Удалить квиз?');">
+              <button class="btn btn-outline-danger btn-sm">Удалить</button>
+            </form>
+          </div>
+        </div>
+
+        {% if selected_quiz and selected_quiz.id == qz.id %}
+          <hr>
+          <h3 class="h6 mb-2">Вопросы в квизе «{{ selected_quiz.name }}»</h3>
+          <ul class="list-group mb-3">
+            {% for qq in selected_quiz.questions %}
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="fw-semibold">#{{ qq.id }} {{ qq.text }}</div>
+                  <div class="small text-secondary">Ответ: {{ qq.answer }}</div>
+                </div>
+                <form method="post" action="{{ url_for('routes.quiz_detach', quiz_id=selected_quiz.id, question_id=qq.id) }}">
+                  <button class="btn btn-outline-danger btn-sm">Убрать</button>
+                </form>
+              </li>
+            {% else %}
+              <li class="list-group-item text-secondary">Пока нет вопросов в этом квизе</li>
+            {% endfor %}
+          </ul>
+
+          <div class="mb-3">
+            <h4 class="h6">Добавить существующий вопрос</h4>
+            <form class="d-flex gap-2" method="post" action="{{ url_for('routes.quiz_attach', quiz_id=selected_quiz.id) }}">
+              <select name="question_id" class="form-select" required>
+                {% for q in available_questions %}
+                  <option value="{{ q.id }}">#{{ q.id }} — {{ q.text[:90] }}</option>
+                {% else %}
+                  <option disabled>Нет доступных вопросов</option>
+                {% endfor %}
+              </select>
+              <button class="btn btn-primary">Добавить</button>
+            </form>
+          </div>
+
+          <div>
+            <h4 class="h6">Быстро создать и добавить</h4>
+            <form method="post" action="{{ url_for('routes.quiz_quick_add_question', quiz_id=selected_quiz.id) }}">
+              <div class="mb-2">
+                <textarea name="text" class="form-control" placeholder="Текст вопроса" required></textarea>
+              </div>
+              <div class="row g-2">
+                <div class="col-md-3"><input name="answer" class="form-control" placeholder="Правильный ответ" required></div>
+                <div class="col-md-3"><input name="wrong1" class="form-control" placeholder="Неверный 1" required></div>
+                <div class="col-md-3"><input name="wrong2" class="form-control" placeholder="Неверный 2" required></div>
+                <div class="col-md-3"><input name="wrong3" class="form-control" placeholder="Неверный 3" required></div>
+              </div>
+              <div class="mt-2">
+                <button class="btn btn-success btn-sm">Создать и добавить</button>
+              </div>
+            </form>
+          </div>
+        {% endif %}
+      </li>
+    {% else %}
+      <li class="list-group-item text-secondary">Квизов ещё нет</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block below_title %}Вопросы (общий пул){% endblock %}
+{% block below %}
+  <form class="mb-3" method="post" action="{{ url_for('routes.question_create') }}">
+    <div class="mb-2">
+      <textarea name="text" class="form-control" placeholder="Текст нового вопроса" required></textarea>
+    </div>
+    <div class="row g-2">
+      <div class="col-md-3"><input name="answer" class="form-control" placeholder="Правильный ответ" required></div>
+      <div class="col-md-3"><input name="wrong1" class="form-control" placeholder="Неверный 1" required></div>
+      <div class="col-md-3"><input name="wrong2" class="form-control" placeholder="Неверный 2" required></div>
+      <div class="col-md-3"><input name="wrong3" class="form-control" placeholder="Неверный 3" required></div>
+    </div>
+    <div class="mt-2">
+      <button class="btn btn-success btn-sm">Создать вопрос</button>
+    </div>
+  </form>
+
+  <ul class="list-group">
+    {% for q in questions %}
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div>
+          <div class="fw-semibold">#{{ q.id }} {{ q.text }}</div>
+          <div class="small text-secondary">
+            Ответ: {{ q.answer }} | В квизах: {{ q.quizzes | length }}
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a class="btn btn-outline-primary btn-sm" href="{{ url_for('routes.question_edit', question_id=q.id) }}">Редактировать</a>
+          <form method="post" action="{{ url_for('routes.question_delete', question_id=q.id) }}" onsubmit="return confirm('Удалить вопрос? Он будет отвязан от всех квизов.');">
+            <button class="btn btn-outline-danger btn-sm">Удалить</button>
+          </form>
+        </div>
+      </li>
+    {% else %}
+      <li class="list-group-item text-secondary">Вопросов пока нет</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

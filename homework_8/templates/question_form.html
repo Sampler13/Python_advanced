@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Редактировать вопрос{% endblock %}
+{% block header %}Редактировать вопрос #{{ question.id }}{% endblock %}
+
+{% block content %}
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+  <form method="post">
+    <div class="mb-2">
+      <textarea name="text" class="form-control" placeholder="Текст вопроса" required>{{ question.text }}</textarea>
+    </div>
+    <div class="row g-2">
+      <div class="col-md-3"><input name="answer" class="form-control" placeholder="Правильный ответ" value="{{ question.answer }}" required></div>
+      <div class="col-md-3"><input name="wrong1" class="form-control" placeholder="Неверный 1" value="{{ question.wrong1 }}" required></div>
+      <div class="col-md-3"><input name="wrong2" class="form-control" placeholder="Неверный 2" value="{{ question.wrong2 }}" required></div>
+      <div class="col-md-3"><input name="wrong3" class="form-control" placeholder="Неверный 3" value="{{ question.wrong3 }}" required></div>
+    </div>
+    <div class="mt-3">
+      <button class="btn btn-primary">Сохранить</button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('routes.quizzes_manage') }}">Назад в редактор</a>
+    </div>
+  </form>
+{% endblock %}

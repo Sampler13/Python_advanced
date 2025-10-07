@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ quiz.name }}{% endblock %}
+{% block header %}{{ quiz.name }}{% endblock %}
+
+{% block content %}
+  {% if finished %}
+    <h2 class="h4 mb-3">Результат</h2>
+    {% if total > 0 %}
+      <p class="lead">Вы набрали <strong>{{ score }}</strong> из <strong>{{ total }}</strong>.</p>
+    {% else %}
+      <div class="alert alert-warning">В этом квизе нет вопросов.</div>
+    {% endif %}
+    <div class="d-flex gap-2 mt-3">
+      <a class="btn btn-primary" href="{{ url_for('routes.quiz_go', quiz_id=quiz.id, new=1) }}">Пройти снова</a>
+      <a class="btn btn-outline-secondary" href="{{ url_for('routes.quizzes_view') }}">К списку квизов</a>
+    </div>
+  {% else %}
+    <div class="mb-2 text-secondary">Вопрос {{ current }} из {{ total }}</div>
+    <h2 class="h5 mb-3">{{ question.text }}</h2>
+
+    <form method="post" action="{{ url_for('routes.quiz_go', quiz_id=quiz.id) }}">
+      <div class="list-group mb-3">
+        {% for opt in options %}
+          <label class="list-group-item">
+            <input class="form-check-input me-2" type="radio" name="answer_idx" value="{{ loop.index0 }}" required>
+            {{ opt }}
+          </label>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary">
+        {{ 'Завершить' if current == total else 'Далее' }}
+      </button>
+    </form>
+  {% endif %}
+{% endblock %}

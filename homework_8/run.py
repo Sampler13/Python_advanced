@@ -24,8 +24,6 @@ questions_data = [
     # reset_db()
     # quiz = get_instance(Quiz, 4)
     # questions = quiz.questions
-    # for question in questions:
-    #     print(f'Вопрос: {question.text}, Правильный ответ: {question.answer}')
 
 if __name__ == "__main__":
     app.run(debug=False, port=5001)
