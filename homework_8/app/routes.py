@@ -103,7 +103,7 @@ def quiz_go(quiz_id):
 
 @bp.route("/quizzes/manage", methods=["GET"])
 def quizzes_manage():
-    # Основной список
+
     quizzes = list_instances(Quiz)
     questions = list_instances(Question)
 
