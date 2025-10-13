@@ -34,12 +34,14 @@ async def users_get() -> dict[str, list[User]|str]:
     users = await ur.get_users()
     return {'status':'ok', 'data':users}
 
+
 @users_router.get('/{id}')
 async def user_get(id: int) -> User:
     user = await ur.get_user(id)
     if not user:
         raise HTTPException(status_code=404, detail="<User Not Found>")
     return user
+
 
 @users_router.post('')
 async def add_user(user: UserAdd = Depends()) -> UserId:
@@ -52,6 +54,7 @@ async def get_quizzes() -> dict[str, list[Quiz]|str]:
     quizes = await qz.get_quizzes()
     return {'status':'ok', 'data':quizes}
 
+
 @quizes_router.get('/{id}')
 async def get_quizz(id: int) -> Quiz:
     quiz = await qz.get_quiz(id)
@@ -59,10 +62,12 @@ async def get_quizz(id: int) -> Quiz:
         raise HTTPException(status_code=404, detail="<Quiz Not Found>")
     return quiz
 
+
 @quizes_router.post('')
 async def add_quiz(quiz: QuizAdd = Depends()) -> QuizId:
     id = await qz.add_quiz(quiz)
     return {'id':id}
+
 
 @quizes_router.get('/{id}/questions')
 async def get_quiz_questions(id: int) -> dict | QuizWithQuestions | list[Question]:
@@ -70,6 +75,7 @@ async def get_quiz_questions(id: int) -> dict | QuizWithQuestions | list[Questio
     if not quiz:
         raise HTTPException(status_code=404, detail="<Quiz Not Found>")
     return QuizWithQuestions.model_validate(quiz)
+
 
 @quizes_router.post('/{id}/link')
 async def link_questions_to_quiz(
@@ -82,10 +88,12 @@ async def link_questions_to_quiz(
 
     return {"status": "ok", "result": result}
 
+
 @questions_router.get('')
 async def get_questions() -> dict[str, list[Question]|str]:
     questions = await qq.get_questions()
     return {'status':'ok', 'data':questions}
+
 
 @questions_router.get('/{id}')
 async def get_question(id: int) -> Question:
@@ -93,6 +101,7 @@ async def get_question(id: int) -> Question:
     if not question:
         raise HTTPException(status_code=404, detail="<Question Not Found>")
     return question
+
 
 @questions_router.post('')
 async def add_question(question: QuestionAdd = Depends()) -> QuestionId:

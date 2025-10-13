@@ -18,11 +18,12 @@ class UserId(BaseModel):
 
 class QuizAdd(BaseModel):
     name: str
-    # user_id: int | None = None
+
 
 class Quiz(QuizAdd):
     id: int
     model_config = ConfigDict(from_attributes=True)
+
 
 class QuizId(BaseModel):
     id: int

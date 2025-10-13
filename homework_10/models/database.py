@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlalchemy import select, text
+from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from .models import UserOrm, Model, QuizOrm, QuestionOrm
@@ -27,10 +27,12 @@ class DataRepository:
         async with engine.begin() as conn:
             await conn.run_sync(Model.metadata.create_all)
 
+
     @classmethod
     async def delete_table(cls):
         async with engine.begin() as conn:
             await conn.run_sync(Model.metadata.drop_all)
+
 
     @classmethod
     async def add_test_data(cls):
@@ -80,6 +82,7 @@ class DataRepository:
             await session.flush()
             await session.commit()
 
+
 class UserRepository:
     @classmethod
     async def add_user(cls, user = UserAdd) -> int:
@@ -100,6 +103,7 @@ class UserRepository:
             users = res.scalars().all()
             return users
 
+
     @classmethod
     async def get_user(cls, id: int) -> UserOrm:
         async with new_session() as session:
@@ -107,6 +111,7 @@ class UserRepository:
             res = await session.execute(query)
             user = res.scalars().first()
             return user
+
 
 class QuizRepository:
     @classmethod
@@ -119,6 +124,7 @@ class QuizRepository:
             await session.commit()
             return quiz.id
 
+
     @classmethod
     async def get_quizzes(cls) -> list[QuizOrm]:
         async with new_session() as session:
@@ -127,6 +133,7 @@ class QuizRepository:
             quizzes = res.scalars().all()
             return quizzes
 
+
     @classmethod
     async def get_quiz(cls, id: int) -> QuizOrm:
         async with new_session() as session:
@@ -134,6 +141,7 @@ class QuizRepository:
             res = await session.execute(query)
             quiz = res.scalars().first()
             return quiz
+
 
     @classmethod
     async def get_quiz_with_questions(cls, id: int) -> QuizOrm | None:
@@ -145,6 +153,7 @@ class QuizRepository:
             )
             res = await session.execute(query)
             return res.scalars().first()
+
 
     @classmethod
     async def link_questions(cls, quiz_id: int, question_ids: list[int]) -> dict:
@@ -176,6 +185,7 @@ class QuizRepository:
                 "missing": missing,
             }
 
+
 class QuestionRepository:
     @classmethod
     async def add_question(cls, question: QuestionAdd) -> int:
@@ -187,6 +197,7 @@ class QuestionRepository:
             await session.commit()
             return question.id
 
+
     @classmethod
     async def get_questions(cls) -> list[QuestionOrm]:
         async with new_session() as session:
@@ -194,6 +205,7 @@ class QuestionRepository:
             res = await session.execute(query)
             questions = res.scalars().all()
             return questions
+
 
     @classmethod
     async def get_question(cls, id: int) -> QuestionOrm:

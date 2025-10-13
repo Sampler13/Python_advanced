@@ -26,7 +26,7 @@ class UserOrm(Model):
     name: Mapped[str]
     age: Mapped[int]
     phone: Mapped[str|None]
-    # quiz = relationship('QuizOrm', backref='user')
+
 
 class QuizOrm(Model):
     __tablename__ = 'quizes'
@@ -36,6 +36,7 @@ class QuizOrm(Model):
         back_populates="quizzes",
         lazy="selectin",
     )
+
 
 class QuestionOrm(Model):
     __tablename__ = 'questions'
