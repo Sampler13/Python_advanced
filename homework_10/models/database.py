@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy import select, text
-
+from sqlalchemy.orm import selectinload
 
 from .models import UserOrm, Model, QuizOrm, QuestionOrm
 from schemas.schemas import *
@@ -134,6 +134,47 @@ class QuizRepository:
             res = await session.execute(query)
             quiz = res.scalars().first()
             return quiz
+
+    @classmethod
+    async def get_quiz_with_questions(cls, id: int) -> QuizOrm | None:
+        async with new_session() as session:
+            query = (
+                select(QuizOrm)
+                .options(selectinload(QuizOrm.questions))
+                .where(QuizOrm.id == id)
+            )
+            res = await session.execute(query)
+            return res.scalars().first()
+
+    @classmethod
+    async def link_questions(cls, quiz_id: int, question_ids: list[int]) -> dict:
+        async with new_session() as session:
+            quiz = await session.get(QuizOrm, quiz_id, options=[selectinload(QuizOrm.questions)])
+            if not quiz:
+                return {"ok": False, "reason": "quiz_not_found"}
+            if not question_ids:
+                return {"ok": True, "added": [], "skipped": [], "missing": []}
+
+            q = select(QuestionOrm).where(QuestionOrm.id.in_(question_ids))
+            res = await session.execute(q)
+            existing_questions = res.scalars().all()
+            existing_ids = {q.id for q in existing_questions}
+            missing = [qid for qid in set(question_ids) if qid not in existing_ids]
+
+            current_ids = {q.id for q in quiz.questions}
+            to_add = [q for q in existing_questions if q.id not in current_ids]
+            skipped = [q.id for q in existing_questions if q.id in current_ids]
+
+            if to_add:
+                quiz.questions.extend(to_add)
+                await session.flush()
+            await session.commit()
+            return {
+                "ok": True,
+                "added": [q.id for q in to_add],
+                "skipped": skipped,
+                "missing": missing,
+            }
 
 class QuestionRepository:
     @classmethod

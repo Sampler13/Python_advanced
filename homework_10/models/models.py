@@ -1,5 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import func, ForeignKey
+from sqlalchemy import func, ForeignKey, Table, Column
 
 from datetime import datetime
 
@@ -14,6 +14,13 @@ class Model(DeclarativeBase):
                                             nullable=False)
 
 
+quiz_question_link = Table(
+    "quiz_question_link",
+    Model.metadata,
+    Column("quiz_id", ForeignKey("quizes.id"), primary_key=True),
+    Column("question_id", ForeignKey("questions.id"), primary_key=True),
+)
+
 class UserOrm(Model):
     __tablename__ = 'users'
     name: Mapped[str]
@@ -24,8 +31,11 @@ class UserOrm(Model):
 class QuizOrm(Model):
     __tablename__ = 'quizes'
     name: Mapped[str]
-    # user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    # user = relationship('UserOrm', backref='quizes')
+    questions: Mapped[list["QuestionOrm"]] = relationship(
+        secondary=quiz_question_link,
+        back_populates="quizzes",
+        lazy="selectin",
+    )
 
 class QuestionOrm(Model):
     __tablename__ = 'questions'
@@ -34,3 +44,8 @@ class QuestionOrm(Model):
     wrong1: Mapped[str]
     wrong2: Mapped[str]
     wrong3: Mapped[str]
+    quizzes: Mapped[list["QuizOrm"]] = relationship(
+        secondary=quiz_question_link,
+        back_populates="questions",
+        lazy="selectin",
+    )

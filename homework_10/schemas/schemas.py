@@ -1,4 +1,5 @@
 from pydantic import BaseModel, ConfigDict
+from typing import List
 
 class UserAdd(BaseModel):
     name: str
@@ -39,5 +40,15 @@ class Question(QuestionAdd):
     id: int
     model_config = ConfigDict(from_attributes=True)
 
+
 class QuestionId(BaseModel):
     id: int
+
+
+class LinkQuestionsId(BaseModel):
+    question_ids: List[int]
+
+
+class QuizWithQuestions(Quiz):
+    questions: list[Question] = []
+    model_config = ConfigDict(from_attributes=True)

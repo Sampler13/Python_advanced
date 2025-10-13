@@ -64,6 +64,23 @@ async def add_quiz(quiz: QuizAdd = Depends()) -> QuizId:
     id = await qz.add_quiz(quiz)
     return {'id':id}
 
+@quizes_router.get('/{id}/questions')
+async def get_quiz_questions(id: int) -> dict | QuizWithQuestions | list[Question]:
+    quiz = await qz.get_quiz_with_questions(id)
+    if not quiz:
+        raise HTTPException(status_code=404, detail="<Quiz Not Found>")
+    return QuizWithQuestions.model_validate(quiz)
+
+@quizes_router.post('/{id}/link')
+async def link_questions_to_quiz(
+    id: int,
+    payload: LinkQuestionsId
+) -> dict:
+    result = await qz.link_questions(id, payload.question_ids)
+    if result.get("reason") == "quiz_not_found":
+        raise HTTPException(status_code=404, detail="<Quiz Not Found>")
+
+    return {"status": "ok", "result": result}
 
 @questions_router.get('')
 async def get_questions() -> dict[str, list[Question]|str]:
