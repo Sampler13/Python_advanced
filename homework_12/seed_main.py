@@ -1,4 +1,4 @@
-# seed_main.py
+
 import os
 import django
 import random
