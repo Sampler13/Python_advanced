@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Курсы{% endblock %}
+{% block content %}
+<h2 class="mb-3 d-flex justify-content-between align-items-center">
+    Курсы
+    {% if perms.main.add_course %}
+        <a href="{% url 'main:course_create' %}" class="btn btn-success">Добавить курс</a>
+    {% endif %}
+</h2>
+
+<div class="row g-3">
+  {% for c in courses %}
+    <div class="col-md-6 col-lg-4">
+      <a class="text-decoration-none" href="{% url 'main:course_detail' c.pk %}">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ c.get_name_display }} — №{{ c.course_num }}</h5>
+            <p class="card-text text-muted mb-1">Старт: {{ c.start_date|default:"—" }}</p>
+            <p class="card-text text-muted">Финиш: {{ c.end_date|default:"—" }}</p>
+            <p class="card-text">{{ c.description|default:"Без описания" }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  {% empty %}
+    <div class="alert alert-info">Курсов нет.</div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Подтверждение удаления курса{% endblock %}
+{% block content %}
+<h2>Удалить курс?</h2>
+<p>Вы уверены, что хотите удалить курс {{ object.get_name_display }} — №{{ object.course_num }}?</p>
+<form method="post">
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'main:courses_list' %}" class="btn btn-outline-secondary">Отмена</a>
+</form>
+{% endblock %}

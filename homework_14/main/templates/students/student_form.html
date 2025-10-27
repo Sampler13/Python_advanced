@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Редактирование: {{ object.surname }} {{ object.name }}{% else %}Новый студент{% endif %}{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">
+  {% if object %}Редактирование студента{% else %}Создание студента{% endif %}
+</h2>
+
+<form method="post" novalidate>
+  {% csrf_token %}
+
+  {# Глобальные ошибки формы #}
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Имя</label>
+      {{ form.name }}
+      {% for e in form.name.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Фамилия</label>
+      {{ form.surname }}
+      {% for e in form.surname.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Возраст</label>
+      {{ form.age }}
+      {% for e in form.age.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Пол</label>
+      {{ form.sex }}
+      {% for e in form.sex.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="col-md-3 d-flex align-items-center">
+      <div class="form-check mt-4">
+        {{ form.active }} <label class="form-check-label">Активный</label>
+      </div>
+      {% for e in form.active.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+
+    <div class="col-md-12">
+      <label class="form-label">Курсы</label>
+      {{ form.course }}
+      <div class="form-text">Удерживайте Ctrl/Cmd, чтобы выбрать несколько.</div>
+      {% for e in form.course.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button type="submit" class="btn btn-primary">
+      {% if object %}Сохранить{% else %}Создать{% endif %}
+    </button>
+    {% if object %}
+      <a href="{% url 'main:student_detail' object.pk %}" class="btn btn-outline-secondary">Отмена</a>
+    {% else %}
+      <a href="{% url 'main:students_list' %}" class="btn btn-outline-secondary">Отмена</a>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

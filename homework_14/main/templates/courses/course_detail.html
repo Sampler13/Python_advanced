@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% block title %}{{ course.get_name_display }} №{{ course.course_num }} — Курс{% endblock %}
+{% block content %}
+<h2 class="mb-3">{{ course.get_name_display }} — №{{ course.course_num }}</h2>
+<div class="mb-3">
+    <a href="{% url 'main:course_edit' course.pk %}" class="btn btn-primary">Редактировать курс</a>
+    <form method="post" action="{% url 'main:course_delete' course.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить курс</button>
+    </form>
+</div>
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header">Информация</div>
+      <div class="card-body">
+        <p><strong>Начало:</strong> {{ course.start_date|default:"—" }}</p>
+        <p><strong>Окончание:</strong> {{ course.end_date|default:"—" }}</p>
+        <p><strong>Описание:</strong><br>{{ course.description|default:"Без описания" }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header">Слушатели курса</div>
+      <ul class="list-group list-group-flush">
+        {% for s in course.student_set.all %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'main:student_detail' s.pk %}">{{ s.surname }} {{ s.name }}</a>
+            {% if s.active %}<span class="badge bg-success">Активный</span>
+            {% else %}<span class="badge bg-secondary">Неактивный</span>{% endif %}
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">Пока нет студентов</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
